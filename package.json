@@ -1,0 +1,20 @@
+{
+  "name": "sft2",
+  "version": "1.0.0",
+  "description": "Starfinder Tracker v2",
+  "main": "client/src/main.js",
+  "scripts": {
+    "serve-client": "cd client && npm run serve",
+    "serve-server": "cd server && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WonderNote18/stf2.git"
+  },
+  "author": "Hector Almanza",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/WonderNote18/stf2/issues"
+  },
+  "homepage": "https://github.com/WonderNote18/stf2#readme"
+}
