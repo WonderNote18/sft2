@@ -1,0 +1,12 @@
+/* === ROOT ELEMENTS === */
+html{
+  font-family: 'Source Code Pro', monospace !important;
+}
+
+/* === HOMEPAGE === */
+.homeHeader {
+  color: #374151;
+  background-color: #93F3CF;
+  border-bottom: 4px dashed #4B5563;
+  transition-duration: 0.5s;
+}
