@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .homeHeader {
   transition: background-color 300ms;
   border-bottom: 4px dashed #4B5563 !important;
