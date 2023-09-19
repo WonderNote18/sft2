@@ -4,8 +4,8 @@
   "description": "Starfinder Tracker v2",
   "main": "client/src/main.js",
   "scripts": {
-    "serve-client": "cd client && npm run serve",
-    "serve-server": "cd server && npm run start"
+    "client": "cd client && npm run serve",
+    "server": "cd server && DEBUG=sft2:* npm run start"
   },
   "repository": {
     "type": "git",
