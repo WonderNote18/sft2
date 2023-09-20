@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     changeAppBarColor($e, vHover) {
-      console.log($e)
       if (vHover) {
         $e.srcElement.classList.add('hover')
       } else {
@@ -113,5 +112,16 @@ export default {
 
 .v-main {
   background-color: var(--color-bgd3);
+}
+</style>
+
+<style>
+.form-buttons {
+  width: 100%;
+  height: 100%;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 </style>
