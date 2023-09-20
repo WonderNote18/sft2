@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
-const debug = require("debug")('sft2:server');
+const debug = require("debug")('sft2:db');
 
 const MONGOURI = process.env.MONGO_URI;
 
