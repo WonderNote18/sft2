@@ -1,7 +1,14 @@
 <template>
-  <v-card variant="tonal">
-    <v-card-title>Login</v-card-title>
-    <v-form @submit.prevent="loginUser">
+  <v-form @submit.prevent="loginUser">
+    <v-card
+    width="640"
+    location="center"
+    position="absolute"
+    density="compact"
+    variant="tonal">
+      <v-card-title>
+        <h2>Login</h2>
+      </v-card-title>
       <v-container>
         <v-text-field
         v-model="loginForm.username"
@@ -13,8 +20,8 @@
         label="Password"></v-text-field>
         <v-btn type="submit" color="success">Login</v-btn>
       </v-container>
-    </v-form>
-  </v-card>
+    </v-card>
+  </v-form>
 </template>
 
 <script>

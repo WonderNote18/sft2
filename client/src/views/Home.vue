@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>SFT2</h1>
+    <h1 class="text-center">Welcome to the Starfinder Tracker!</h1>
   </div>
 </template>
 

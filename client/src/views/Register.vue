@@ -1,6 +1,13 @@
 <template>
-  <v-card variant="tonal">
-    <v-card-title>Register</v-card-title>
+  <v-card
+  width="640"
+  location="center"
+  position="absolute"
+  density="compact"
+  variant="tonal">
+    <v-card-title>
+      <h2>Register</h2>
+    </v-card-title>
     <v-form @submit.prevent="registerUser">
       <v-container>
         <v-text-field

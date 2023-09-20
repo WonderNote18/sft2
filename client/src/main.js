@@ -1,22 +1,12 @@
 import {createApp } from 'vue';
 import App from '@/App.vue';
-import store from '@/store'
+import vuetify from '@/vuetify';
+import store from '@/store';
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
-
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-
-const vuetify = createVuetify({
-  components,
-  directives,
-})
 
 const app = createApp(App);
 
