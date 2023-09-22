@@ -42,7 +42,7 @@
 
     <v-main>
       <v-container>
-        <router-view></router-view>
+        <router-view/>
         <v-footer app border color="blue-grey-darken-4">&copy; 2023 SFT2</v-footer>
       </v-container>
     </v-main>
