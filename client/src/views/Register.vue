@@ -14,45 +14,52 @@
         v-model="registerForm.firstName"
         type="text"
         label="First Name"
+        placeholder="Enter your first name"
         autocomplete="given-name"
-        validate-on="lazy input"
+        validate-on="lazy submit"
+        autofocus
         :rules="[requiredRule]"></v-text-field>
 
         <v-text-field
         v-model="registerForm.lastName"
         type="text"
         label="Last Name"
+        placeholder="Enter your last name"
         autocomplete="family-name"
-        validate-on="lazy input"
+        validate-on="lazy submit"
         :rules="[requiredRule]"></v-text-field>
 
         <v-text-field
         v-model="registerForm.username"
         type="text"
         label="Username"
+        placeholder="Create a username up to 32 characters, letters and numbers only"
         autocomplete="username"
-        validate-on="lazy input"
+        validate-on="lazy submit"
         :rules="[requiredRule, usernameRule]"></v-text-field>
 
         <v-text-field
         v-model="registerForm.emailAddress"
         type="email"
         label="Email"
+        placeholder="Enter a valid email address"
         autocomplete="email"
-        validate-on="lazy input"
+        validate-on="lazy submit"
         :rules="[requiredRule, emailRule]"></v-text-field>
 
         <v-text-field
         v-model="registerForm.password"
         type="password"
         label="Enter Password"
-        validate-on="lazy input"
+        placeholder="8+ characters, uppercase, lowercase, number, and symbol"
+        validate-on="lazy submit"
         :rules="[requiredRule, passwordRule]"></v-text-field>
 
         <v-text-field
         v-model="registerForm.passwordConfirmation"
         type="password"
         label="Confirm Password"
+        placeholder="Confirm password"
         validate-on="lazy input"
         :rules="[requiredRule, passwordRule, confirmPasswordRule]"></v-text-field>
 

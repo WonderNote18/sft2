@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import HomeHeader from '@/components/HomeHeader'
-import HomeFooter from '@/components/HomeFooter'
+import HomeHeader from '@/components/home/HomeHeader'
+import HomeFooter from '@/components/home/HomeFooter'
 
 export default {
   name: "App",

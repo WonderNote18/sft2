@@ -14,16 +14,19 @@
         v-model="loginForm.username"
         type="text"
         label="Username"
+        placeholder="Enter Username"
         autocomplete="username"
-        validate-on="lazy input"
+        validate-on="lazy submit"
+        autofocus
         :rules="[requiredRule]"></v-text-field>
 
         <v-text-field
         v-model="loginForm.password"
         type="password"
         label="Password"
+        placeholder="Enter Password"
         autocomplete="username"
-        validate-on="lazy input"
+        validate-on="lazy submit"
         :rules="[requiredRule]"></v-text-field>
 
         <v-layout row>
