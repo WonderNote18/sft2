@@ -33,7 +33,7 @@
         v-model="registerForm.username"
         type="text"
         label="Username"
-        placeholder="Create a username up to 32 characters, letters and numbers only"
+        placeholder="Up to 32 characters, letters and numbers only"
         autocomplete="username"
         validate-on="lazy submit"
         :rules="[requiredRule, usernameRule]"></v-text-field>
@@ -51,7 +51,7 @@
         v-model="registerForm.password"
         type="password"
         label="Enter Password"
-        placeholder="8+ characters, uppercase, lowercase, number, and symbol"
+        placeholder="8+ characters (uppercase, lowercase, number, symbol)"
         validate-on="lazy submit"
         :rules="[requiredRule, passwordRule]"></v-text-field>
 
@@ -78,30 +78,23 @@
 
 <script>
 import { ref } from 'vue'
-import HomepageController from "@/controllers/homepageController"
 
 export default {
   name: "Register",
   setup() {
     const form = ref(null)
-
-    return {
-      form,
-      validate() {
-        form.value.validate()
-      }
-    }
-  },
-  data() {
-    return {
-      registerForm: {
+    var registerForm = ref({
         firstName: "",
         lastName: "",
         username: "",
         email: "",
         password: "",
         passwordConfirmation: "",
-      },
+      });
+
+    return {
+      form,
+      registerForm
     }
   },
   computed: {
@@ -142,9 +135,7 @@ export default {
 
       if (formValidated.valid === true) {
         try {
-          HomepageController.setApiURL(this.$apiURL)
-
-          const registerResponse = await HomepageController.register(this.$registerForm)
+          // const registerResponse = await HomepageController.register(this.$registerForm)
           if (registerResponse.status === 200) {
             this.$router.push('/')
           } else {

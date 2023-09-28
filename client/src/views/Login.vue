@@ -44,28 +44,21 @@
 
 <script>
 import { ref } from 'vue'
-import HomepageController from '@/controllers/homepageController';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 
 export default {
   name: "Login",
   setup() {
     const form = ref(null)
+    const loginForm = ref({
+      username: '',
+      password: ''
+    })
 
     return {
       form,
-      validate() {
-        form.value.validate()
-      }
+      loginForm
     }
-  },
-  data() {
-    return {
-      loginForm: {
-        username: "",
-        password: "",
-      },
-    };
   },
   computed: {
     requiredRule() {
@@ -81,9 +74,8 @@ export default {
 
       if (formValidated.valid === true) {
         try {
-          HomepageController.setApiURL(this.$apiURL)
 
-          const loginResponse = await HomepageController.login(this.$loginForm)
+          // const loginResponse = await HomepageController.login(this.$loginForm)
           if (loginResponse.status === 200 && Cookies.get('userId') !== undefined) {
             this.$router.push(`/`)
           } else {

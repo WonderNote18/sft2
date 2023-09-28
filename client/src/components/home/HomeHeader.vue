@@ -14,46 +14,53 @@
           </div>
         </v-layout>
       </router-link>
-      <v-layout row>
-        <div class="app-bar-buttons">
+      <v-layout row class="app-bar-bottom">
+        <div class="bottom-bar-title">
+          <span class="text-h5" v-if="!isAuth">Login or Register</span>
+          <span class="text-h5 welcomeUser" v-if="isAuth">Welcome,
+            <b>{{ username }}</b>
+          </span>
+        </div>
+        <div class="bottom-bar-buttons">
           <v-btn-group>
             <v-btn
-            v-if="authSession"
             text
             color="secondary"
+            class="mr-1"
+            :to="{ name: 'About' }">
+              About
+            </v-btn>
+
+            <v-btn
+            v-if="isAuth"
+            text
+            color="background"
             class="mr-1"
             to="/overview">
               Dashboard
             </v-btn>
 
             <v-btn
-            v-if="authSession"
+            v-if="isAuth"
             text
-            class="mr-1"
             @click="logout">
               Logout
             </v-btn>
 
             <v-btn
-            v-if="!authSession"
+            v-if="!isAuth"
             text
             class="mr-1"
+            color="background"
             :to="{ name: 'Login' }">
               Login
             </v-btn>
 
             <v-btn
-            v-if="!authSession"
+            v-if="!isAuth"
             text
-            class="mr-1"
             :to="{ name: 'Register' }">
               Register
-            </v-btn>
-
-            <v-btn
-            text class="mr-1"
-            :to="{ name: 'About' }">
-              About
             </v-btn>
           </v-btn-group>
         </div>
@@ -63,13 +70,17 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { inject } from 'vue'
 
 export default {
   name: "HomeHeader",
-  data() {
+  setup(props) {
+    const isAuth = inject('isAuth')
+    const username = inject('username')
+
     return {
-      authSession: ref(null),
+      isAuth,
+      username
     }
   },
   methods: {
@@ -110,13 +121,26 @@ export default {
 }
 
 /* Lighter shaded bottom portion */
-.app-bar-buttons {
+.app-bar-bottom {
   background-color: var(--color-bgl1);
-  width: 100%;
+}
+.app-bar-bottom > div {
   height: 80%;
   padding: 2px 0;
+  margin: auto;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  flex-basis: content;
+}
+.bottom-bar-title {
+  justify-content: flex-start;
+  margin-left: 0.5rem !important;
+}
+.bottom-bar-buttons {
+  justify-content: flex-end;
+  margin-right: 0.5rem !important;
+}
+.welcomeUser {
+  color: var(--color-bgl4);
 }
 </style>

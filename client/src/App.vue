@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { computed, provide } from 'vue'
+import { useStore } from 'vuex'
 import HomeHeader from '@/components/home/HomeHeader'
 import HomeFooter from '@/components/home/HomeFooter'
 
@@ -22,16 +24,17 @@ export default {
     HomeHeader,
     HomeFooter
   },
-  data() {
-    return {
-      authSession: false,
-    }
-  },
-  methods: {},
-  computed: {
-    authSession() {}
-  },
-};
+  setup(props) {
+    const store = useStore()
+    const apiURL = process.env.VUE_APP_API_ADDRESS + ':' + process.env.VUE_APP_API_PORT;
+    store.commit('setApiKey', apiURL)
+
+    provide('isAuth', computed(() => store.getters.authSession))
+    provide('username', computed(() => store.getters.authUser))
+    provide('authUser', computed((authType, formData) => store.dispatch('authUser', { authType, formData} )))
+    provide('logoutUser', computed(() => store.dispatch('logoutUser')))
+  }
+}
 </script>
 
 <style>
