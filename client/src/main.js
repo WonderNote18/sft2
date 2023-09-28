@@ -1,17 +1,14 @@
 import {createApp } from 'vue';
 import App from '@/App.vue';
-import router from '@/router';
-import store from '@/store';
-import vuetify from '@/vuetify';
+import AppVuetify from '@/vuetify';
+import AppRouter from '@/router';
+import AppStore from '@/store';
 
 const app = createApp(App);
 
-const apiURL = process.env.VUE_APP_API_ADDRESS + ':' + process.env.VUE_APP_API_PORT;
-
-app.use(router);
-app.use(store);
-app.use(vuetify);
-
-app.config.globalProperties.$apiURL = apiURL;
-
+app.use(AppVuetify);
+app.use(AppRouter);
+app.use(AppStore);
 app.mount('#app');
+
+export default app;

@@ -1,5 +1,3 @@
-
-
 import 'vuetify/styles'
 import { createVuetify, ThemeDefinition } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -19,7 +17,7 @@ const projectTheme = {
   }
 }
 
-const vuetify = createVuetify({
+const AppVuetify = createVuetify({
   components,
   directives,
   theme: {
@@ -30,4 +28,4 @@ const vuetify = createVuetify({
   }
 })
 
-export default vuetify;
+export default AppVuetify;
