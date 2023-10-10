@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const {
-  isEmail
-} = require('validator');
+const { isEmail, isStrongPassword} = require('validator');
 const bcrypt = require('bcryptjs');
+const debug = require("debug")('sft2:user-model');
 
 const UserSchema = mongoose.Schema({
   emailAddress: {
@@ -35,10 +34,7 @@ const UserSchema = mongoose.Schema({
     required: [true, 'Please enter a password'],
     minLength: [8, 'Password must be at least 8 characters long'],
     maxLength: [32, 'Password must be no greater than 32 characters'],
-  },
-  token: {
-    type: String,
-    default: null
+    validate: [isStrongPassword, 'Must include 1 uppercase, 1 lowercase, 1 number, & 1 symbol']
   },
   campaigns: {
     type: Array,
@@ -54,7 +50,7 @@ const UserSchema = mongoose.Schema({
 
 // pre/post model functions
 UserSchema.post('save', function (doc, next) {
-  console.log('new user was created', doc);
+  debug('new user was created:', doc.username);
   next();
 });
 
@@ -65,17 +61,48 @@ UserSchema.pre('save', async function (next) {
 });
 
 // static methods
-UserSchema.statics.login = async function (emailAddress, password) {
-  const user = await this.findOne({
-    emailAddress
-  });
+UserSchema.statics.login = async function (userString, password) {
+  const user = await this.findOne({username: userString}) ||
+  this.findOne({ emailAddress: userString });
+
+  debug(userString);
+  debug(password);
+  debug(user);
+
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
+    debug(auth);
     if (auth) {
       return user;
     }
   }
   throw Error('Invalid email/password');
+}
+UserSchema.statics.register = async function(firstName, lastName, username, emailAddress, password) {
+  const existingUser = await this.findOne({
+    username,
+    emailAddress
+  });
+
+  if (existingUser) {
+    throw new Error('Registration failed. Please try again');
+  }
+
+  try {
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      emailAddress,
+      password
+    });
+
+    await newUser.save();
+    return newUser;
+  } catch (err) {
+    throw new Error('Registration failed. Please try again');
+  }
+
 }
 UserSchema.statics.fetchUser = async function (id) {
   const user = await this.findOne({

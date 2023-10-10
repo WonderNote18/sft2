@@ -1,11 +1,12 @@
-var express = require('express');
-var cors = require('cors');
-var session = require('express-session');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var createError = require('http-errors');
+const express = require('express');
+const appSession = require('./config/session');
+const cors = require('cors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const createError = require('http-errors');
 const InitDB = require('./config/db');
+const debug = require("debug")('sft2:app');
 
 // App routers
 var authRouter = require('./routes/auth');
@@ -16,18 +17,6 @@ InitDB();
 // Init ExpressJS
 var app = express();
 
-// Configure express-session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 3600000
-    },
-  })
-);
-
 // App middleware
 app.use(cors());
 app.use(logger('dev'));
@@ -35,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(appSession);
 
 // App routes
 app.use('/auth', authRouter);
