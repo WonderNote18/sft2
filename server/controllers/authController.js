@@ -6,8 +6,7 @@ class AuthController {
   static async isAuth(req, res, next) {
     try {
       const reqSession = req.session;
-      debug(reqSession);
-      const isSessionActive = reqSession.expires < new Date();
+      const isSessionActive = reqSession.cookie.expires < new Date();
       const isUserExists = await User.findById(reqSession.user._id);
 
       const isSession = Boolean(reqSession && isSessionActive && isUserExists);
@@ -53,8 +52,7 @@ class AuthController {
         req.session.reload(function(err) {
           if (err) next(err);
 
-          const newUserData = JSON.parse(JSON.stringify(newUser));
-          delete newUserData.password;
+          const newUserData = AuthController.#assignUserData(newUser);
 
           req.session.user = newUserData;
           req.session.save(function(err) {
@@ -83,8 +81,7 @@ class AuthController {
         req.session.reload(function(err) {
           if (err) next(err);
 
-          var loginUserData = JSON.parse(JSON.stringify(loginUser));
-          delete loginUserData.password;
+          const loginUserData = AuthController.#assignUserData(loginUser);
 
           req.session.user = loginUserData;
           req.session.save(function(err) {
@@ -118,6 +115,14 @@ class AuthController {
       .status(200)
       .json({ message: 'User logout'});
     return;
+  }
+
+  static #assignUserData(userModel) {
+    var userData = JSON.parse(JSON.stringify(userModel));
+    delete userData.password;
+    delete userData.__v;
+
+    return userData;
   }
 }
 

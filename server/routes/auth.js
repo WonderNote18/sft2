@@ -17,9 +17,11 @@ router.post('/api/login', AuthController.userLogin);
 router.post('/api/logout', AuthController.userLogout);
 
 // Forgot User Password
-router.post('/api/forgot-password', function (req, res, next) {
-  // TODO: Forgot User Password
-  res.status(200).json({message: '/api/forgot-password'});
+router.get('/api/forgot-password', function (req, res, next) {
+  // TODO: Forgot User Password,
+  // Session endpoint test for now
+  let x = req.session.store.get(req.session.id);
+  res.status(200).json({message: x});
   return;
 });
 

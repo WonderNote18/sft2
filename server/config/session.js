@@ -19,7 +19,8 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: true
+    httpOnly: true,
+    maxAge: parseInt(process.env.SESSION_EXPIRY * 1000),
   }
 };
 
