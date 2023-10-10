@@ -3,7 +3,6 @@ const debug = require("debug")('sft2:auth-route');
 
 // Controllers
 const AuthController = require('../controllers/authController');
-const SessionController = require('../controllers/sessionController');
 
 // Router
 var router = express.Router();

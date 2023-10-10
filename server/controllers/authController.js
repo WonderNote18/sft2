@@ -1,8 +1,27 @@
-const debug = require("debug")('sft2:authController');
 const User = require('../models/User');
+const debug = require("debug")('sft2:authController');
 require('dotenv').config();
 
 class AuthController {
+  static async isAuth(req, res, next) {
+    try {
+      const reqSession = req.session;
+      debug(reqSession);
+      const isSessionActive = reqSession.expires < new Date();
+      const isUserExists = await User.findById(reqSession.user._id);
+
+      const isSession = Boolean(reqSession && isSessionActive && isUserExists);
+      if (isSession) {
+        next();
+      } else {
+        res.status(401).json({ error: 'Login expired, please log in' });
+      }
+    } catch (err) {
+      res.status(401).json({ error: 'Login expired, please log in' });
+    }
+    return;
+  }
+
   static async userRegister(req, res, next)
   {
     const firstName = req.body.firstName;
