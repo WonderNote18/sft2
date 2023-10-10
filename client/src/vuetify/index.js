@@ -1,3 +1,4 @@
+import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify, ThemeDefinition } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -20,6 +21,9 @@ const projectTheme = {
 const AppVuetify = createVuetify({
   components,
   directives,
+  icons: {
+    defaultSet: 'mdi'
+  },
   theme: {
     defaultTheme: 'projectTheme',
     themes: {

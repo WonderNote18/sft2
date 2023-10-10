@@ -1,62 +1,50 @@
 import Cookies from 'js-cookie';
-import post from '@/api';
-import { HttpStatusCode } from 'axios';
+import APIController from '@/api';
 
-const auth = {
+const authModule = {
   state: {
-    authSession: false,
-    username: null,
     user: null,
-    token: null,
+    cookieId: process.env.API_COOKIE_ID,
   },
   getters: {
     authUser(state) {
-      return state.username;
+      return state.user;
     },
     authSession(state) {
-      return state.authSession;
+      return Boolean(state.user);
     },
+    cookieId(state) {
+      return state.cookieId;
+    }
   },
   mutations: {
-    authLogin(state, { loginResponse }) {
-      const username = loginResponse.username;
-      const user = loginResponse.user;
-      const token = loginResponse.token;
-
-      state.authSession = true;
-      state.username = username;
+    authLogin(state, loginUser) {
+      const user = loginUser;
       state.user = user;
-      state.token = token;
-
-      Cookies.set('token', token, {
-        httpOnly: true
-      });
     },
     authLogout(state) {
-      state.authSession = false;
-      state.username = null;
       state.user = null;
-      state.token = null;
-
-      Cookies.remove('token');
     }
   },
   actions: {
-    async authUser(state, { authType, formData } ) {
-      const apiURL = store.getters.getApiKey + '/auth/api/' + authType;
-      var response = await post(apiURL, formData);
-      if (response.status === 200 && response.data) {
-        commit('authLogin', response.data);
+    async authUser({commit, state, rootGetters}, {authType, formData}) {
+      const apiURL = '/auth/api/' + authType;
+      var response = await APIController.POST(apiURL, formData);
+      console.log('api Response\n', response);
+
+      if ((response.status === 200 || response.status === 202)
+      && response.data.user) {
+        commit('authLogin', response.data.user);
       }
       return response;
     },
-    async logoutUser(state) {
-      const apiURL = store.getters.getApiKey + '/auth/api/logout';
-      var response = await post(apiURL, formData);
-      commit('authLogout', response.data);
+    async logoutUser({commit, state, rootGetters}) {
+      const apiURL = '/auth/api/logout';
+      var response = await APIController.POST(apiURL, {});
+      commit('authLogout');
       return response;
     }
   }
 }
 
-export default auth;
+export default authModule;

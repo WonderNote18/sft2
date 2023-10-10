@@ -1,24 +1,21 @@
 import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
+
+// Persistent state storage
+const vuexLocal = new VuexPersistence({
+  key: process.env.API_COOKIE_ID,
+  storage: window.localStorage
+});
 
 // Modules
-import auth from './authModule';
+import authModule from './authModule';
 
 const AppStore = Vuex.createStore({
-  state: {
-    apiKey: null,
-  },
-  getters: {
-    getApiKey(state) {
-      return state.apiKey;
-    }
-  },
-  mutations: {
-    setApiKey(state, { apiURL }) {
-      state.apiKey = apiURL;
-    }
-  },
   modules: [
-    auth
+    authModule
+  ],
+  plugins: [
+    vuexLocal.plugin
   ]
 });
 

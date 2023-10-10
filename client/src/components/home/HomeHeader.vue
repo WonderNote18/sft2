@@ -18,7 +18,7 @@
         <div class="bottom-bar-title">
           <span class="text-h5" v-if="!isAuth">Login or Register</span>
           <span class="text-h5 welcomeUser" v-if="isAuth">Welcome,
-            <b>{{ username }}</b>
+            <b>{{ userInfo.username }}</b>
           </span>
         </div>
         <div class="bottom-bar-buttons">
@@ -70,17 +70,38 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { ref, onBeforeUpdate } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
   name: "HomeHeader",
   setup(props) {
-    const isAuth = inject('isAuth')
-    const username = inject('username')
+    const store = useStore()
+    const router = useRouter()
+    const isAuth = ref(store.getters.authSession)
+    const userInfo = ref(store.getters.authUser)
+
+    const logout = async function() {
+      const logoutResponse = await store.dispatch('logoutUser')
+      if (logoutResponse) {
+        const pushMessage = 'Successfully logged out!'
+        router.push({
+          path: '/',
+          query: {pushMessage: pushMessage}
+          })
+      }
+    }
+
+    onBeforeUpdate(function() {
+      isAuth.value = store.getters.authSession
+      userInfo.value = store.getters.authUser
+    })
 
     return {
       isAuth,
-      username
+      userInfo,
+      logout
     }
   },
   methods: {

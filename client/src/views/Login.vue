@@ -11,11 +11,11 @@
     <v-form ref="form" @submit.prevent="loginUser">
       <v-container>
         <v-text-field
-        v-model="loginForm.username"
+        v-model="loginForm.userString"
         type="text"
         label="Username"
         placeholder="Enter Username"
-        autocomplete="username"
+        autocomplete="userString"
         validate-on="lazy submit"
         autofocus
         :rules="[requiredRule]"></v-text-field>
@@ -25,7 +25,6 @@
         type="password"
         label="Password"
         placeholder="Enter Password"
-        autocomplete="username"
         validate-on="lazy submit"
         :rules="[requiredRule]"></v-text-field>
 
@@ -43,21 +42,52 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
 
 export default {
   name: "Login",
   setup() {
+    const store = useStore()
+    const router = useRouter()
     const form = ref(null)
     const loginForm = ref({
-      username: '',
+      userString: '',
       password: ''
     })
 
+    const loginUser = async function() {
+      const formValidated = await form.value.validate()
+      if (formValidated.valid) {
+        try {
+          const reqData = {
+            authType: 'login',
+            formData: {...unref(loginForm)}
+          }
+          const response = await store.dispatch('authUser', reqData)
+
+          if (response.status === 202 && store.getters.authSession) {
+            const username = store.getters.authUser.username
+            const pushMessage = 'Login successful. Welcome, ' + username + '!'
+            router.push({
+              path: '/',
+              query: {pushMessage: pushMessage}
+              })
+          } else {
+           throw new Error(response.message)
+          }
+        } catch(err) {
+          console.error(err)
+        }
+      }
+    }
+
     return {
       form,
-      loginForm
+      loginForm,
+      loginUser
     }
   },
   computed: {
@@ -68,23 +98,6 @@ export default {
   methods: {
     resetForm() {
       return this.$refs.form.reset()
-    },
-    async loginUser() {
-      const formValidated = await this.$refs.form.validate()
-
-      if (formValidated.valid === true) {
-        try {
-
-          // const loginResponse = await HomepageController.login(this.$loginForm)
-          if (loginResponse.status === 200 && Cookies.get('userId') !== undefined) {
-            this.$router.push(`/`)
-          } else {
-           throw new Error(loginResponse)
-          }
-        } catch(err) {
-          console.error('Login failed')
-        }
-      }
     },
   },
 };
