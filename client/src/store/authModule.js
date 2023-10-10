@@ -4,7 +4,7 @@ import APIController from '@/api';
 const authModule = {
   state: {
     user: null,
-    cookieId: process.env.API_COOKIE_ID,
+    cookieID: process.env.API_COOKIE_ID,
   },
   getters: {
     authUser(state) {
@@ -13,8 +13,8 @@ const authModule = {
     authSession(state) {
       return Boolean(state.user);
     },
-    cookieId(state) {
-      return state.cookieId;
+    cookieID(state) {
+      return state.cookieID;
     }
   },
   mutations: {
