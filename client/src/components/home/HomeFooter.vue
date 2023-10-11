@@ -7,7 +7,3 @@ export default {
   name: "HomeFooter",
 }
 </script>
-
-<style>
-
-</style>

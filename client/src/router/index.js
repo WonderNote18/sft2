@@ -1,38 +1,61 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Cookies from 'js-cookie';
 import checkAuth from '@/router/middleware'
-import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
+
+// Sub-route Layouts
+import HomeLayout from '@/components/home/HomeLayout'
+
+// Views
+import Home from '@/views/Home';
+import About from '@/views/About';
+import Login from '@/views/Login';
+import Register from '@/views/Register';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-    props: true
+    component: HomeLayout,
+    props: true,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: Home
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: About
+      },
+      {
+        path: 'login',
+        name: 'Login',
+        component: Login
+      },
+      {
+        path: 'register',
+        name: 'Register',
+        component: Register
+      },
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/is-auth',
-    name: 'IsAuth',
-    component: Home,
-    beforeEnter: checkAuth
+    path: '/overview',
+    // component: OverviewLayout,
+    beforeEnter: checkAuth,
+    children: [
+      {
+        path: '',
+        name: 'Overview',
+        // component: Overview,
+        component: Home,
+      },
+      {
+        path: '/is-auth',
+        name: 'IsAuth',
+        component: Home,
+      },
+    ],
   },
 ];
 

@@ -72,24 +72,27 @@
 <script>
 import { ref, onBeforeUpdate } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+
+// Services
+import AlertService from '@/utils/AlertService'
 
 export default {
   name: "HomeHeader",
-  setup(props) {
+  setup() {
     const store = useStore()
     const router = useRouter()
+
     const isAuth = ref(store.getters.authSession)
     const userInfo = ref(store.getters.authUser)
 
     const logout = async function() {
       const logoutResponse = await store.dispatch('logoutUser')
       if (logoutResponse) {
-        const pushMessage = 'Successfully logged out!'
-        router.push({
-          path: '/',
-          query: {pushMessage: pushMessage}
-          })
+        const alert = {
+          title: 'Successfully logged out!'
+        }
+        AlertService.redirectToWithAlert(router, '/', alert)
       }
     }
 

@@ -44,14 +44,18 @@
 <script>
 import { ref, unref } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router';
+
+// Services
+import AlertService from '@/utils/AlertService'
+
 
 export default {
   name: "Login",
   setup() {
-    const store = useStore()
     const router = useRouter()
+    const store = useStore()
+
     const form = ref(null)
     const loginForm = ref({
       userString: '',
@@ -70,11 +74,11 @@ export default {
 
           if (response.status === 202 && store.getters.authSession) {
             const username = store.getters.authUser.username
-            const pushMessage = 'Login successful. Welcome, ' + username + '!'
-            router.push({
-              path: '/',
-              query: {pushMessage: pushMessage}
-              })
+            const alert = {
+              title: 'Login successful. Welcome, ' + username + '!'
+            }
+
+            AlertService.redirectToWithAlert(router, '/', alert)
           } else {
            throw new Error(response.message)
           }

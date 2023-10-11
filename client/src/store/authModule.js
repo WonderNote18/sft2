@@ -30,7 +30,6 @@ const authModule = {
     async authUser({commit, state, rootGetters}, {authType, formData}) {
       const apiURL = '/auth/api/' + authType;
       var response = await APIController.POST(apiURL, formData);
-      console.log('api Response\n', response);
 
       if ((response.status === 200 || response.status === 202)
       && response.data.user) {
