@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AlertPush :key="$route.fullPath" :alert="$route.query"></AlertPush>
+    <Alert :key="$route.fullPath" :alert="$route.query"></Alert>
     <v-main>
       <HomeHeader :key="$route.fullPath"></HomeHeader>
       <v-container>
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import AlertPush from '@/components/AlertPush'
+import Alert from '@/components/Alert'
 import HomeHeader from '@/components/home/HomeHeader'
 import HomeFooter from '@/components/home/HomeFooter'
 
 export default {
   name: 'HomeLayout',
   components: {
-    AlertPush,
+    Alert,
     HomeHeader,
     HomeFooter,
   },

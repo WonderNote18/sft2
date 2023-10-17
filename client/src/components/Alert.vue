@@ -13,7 +13,7 @@
 import { ref, toRef, unref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 export default {
-  name: "AlertPush",
+  name: "Alert",
   props: {
     alert: {
       type: Object,
